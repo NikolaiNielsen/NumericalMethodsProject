@@ -2,15 +2,20 @@ clear all
 close all
 clc
 
-N = 50;
+N = 1000;
 T = 100;
 p = 0.1;
-index = 1:N;
 tCured = 10;
 pImmune = 0.5;
+nNeigh = 15;
 
-nNeigh = 3;
+% R0: average number of transmissions for an individual, over the period of
+% sickness (tCured)
+% R0/tCured = average number of transmissions for an individual, per round
+% (R0/tCured)/nNeigh = probability of spreading disease to every individual
+% neighbour.
 % pMat = (1+nNeigh/N)/2;
+
 % a = adjmatrix(N,pMat);
 [s,t] = scalefree(N,3);
 % [s,t] = smallworld(N,100,0.2);
@@ -22,10 +27,9 @@ a(end,end) = 0;
 a = a+a';
 g = graph(a);
 
-% edges = table2array(g.Edges(:,1));
+index = 1:N;
 sick = false(1,N);
-% sick() = 1;
-sick(16) = 1;
+sick([16 ]) = 1;
 immune = false(1,N);
 immune(rand(1,N) <= pImmune) = 1;
 immune(sick & immune) = 0;
