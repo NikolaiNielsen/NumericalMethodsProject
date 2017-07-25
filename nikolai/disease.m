@@ -9,10 +9,10 @@ index = 1:N;
 tCured = T;
 pImmune = 0.7;
 
-nNeigh = 50;
-pMat = (1+nNeigh/N)/2;
-a = adjmatrix(N,pMat);
-% load('randommat')
+% nNeigh = 50;
+% pMat = (1+nNeigh/N)/2;
+% a = adjmatrix(N,pMat);
+load('randommat')
 g = graph(a);
 
 % edges = table2array(g.Edges(:,1));
