@@ -1,0 +1,21 @@
+# I'm only interested in the git, matlab and LaTeX stuff.
+
+# Ignores all files
+*
+
+# Excluding git stuff
+!.gitattributes
+!.gitignore
+!readme.md
+!.gitkeep
+
+# And .m files
+!*.m
+!*.tex
+!*.png
+!*.pdf
+
+# And in all subdirectories
+!*/
+*materialer
+!/NumMetWeek4
