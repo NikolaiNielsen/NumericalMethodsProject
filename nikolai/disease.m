@@ -2,22 +2,29 @@ clear all
 close all
 clc
 
-N = 1000;
+N = 10000;
 T = 100;
-p = 0.3;
+p = 0.01;
 index = 1:N;
-tCured = T;
-pImmune = 0.7;
+tCured = 10;
+pImmune = 0.9;
 
-% nNeigh = 50;
+nNeigh = 3;
 % pMat = (1+nNeigh/N)/2;
 % a = adjmatrix(N,pMat);
-load('randommat')
+[s,t] = scalefree(N,100);
+% [s,t] = smallworld(N,100,0.2);
+a = zeros(N);
+for i = 1:length(s)
+   a(s(i),t(i)) = 1; 
+end
+a(end,end) = 0;
+a = a+a';
 g = graph(a);
 
 % edges = table2array(g.Edges(:,1));
 sick = false(1,N);
-sick(64) = 1;
+% sick() = 1;
 sick(16) = 1;
 immune = false(1,N);
 immune(rand(1,N) <= pImmune) = 1;
@@ -26,11 +33,11 @@ countdown = zeros(size(sick));
 countdown(sick) = tCured+1;
 
 
-figure
-h = plot(g);
-highlight(h,index(sick),'NodeColor','r')
-drawnow
-highlight(h,index(immune),'NodeColor','g')
+% figure
+% h = plot(g,'Layout','circle');
+% highlight(h,index(sick),'NodeColor','r')
+% drawnow
+% highlight(h,index(immune),'NodeColor','g')
 
 sickCount = zeros(T,N);
 sickCount(1,:) = sick;
@@ -67,13 +74,13 @@ for t = 2:T
 	sickCount(t,:) = sick;
 	
 	% update the plot
-	highlight(h,index(sick),'NodeColor','r')
-	highlight(h,index(~sick & ~immune),'NodeColor','b')
-	title(sprintf('t=%d',t))
-	pause(0.5)
+% 	highlight(h,index(sick),'NodeColor','r')
+% 	highlight(h,index(~sick & ~immune),'NodeColor','b')
+% 	title(sprintf('t=%d',t))
+% 	pause(0.5)
 	
 	% Don't wanna go to far if unnecessary (God, I butchered that)
-	if sum(sick) == N
+	if sum(sick) == N || sum(sick) == 0
 		break
 	end
 end
@@ -81,6 +88,9 @@ figure
 h = plot(g);
 highlight(h,index(sick),'NodeColor','r')
 highlight(h,index(immune),'NodeColor','g')
+highlight(h,index(~sick & ~immune),'NodeColor','k')
 
 figure
 plot(N-sum(immune)-sum(sickCount,2))
+xlabel('time')
+ylabel('healthy, non-immune individuals')
