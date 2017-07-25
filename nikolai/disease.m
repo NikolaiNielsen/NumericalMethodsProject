@@ -2,17 +2,17 @@ clear all
 close all
 clc
 
-N = 10000;
+N = 50;
 T = 100;
-p = 0.01;
+p = 0.1;
 index = 1:N;
 tCured = 10;
-pImmune = 0.9;
+pImmune = 0.5;
 
 nNeigh = 3;
 % pMat = (1+nNeigh/N)/2;
 % a = adjmatrix(N,pMat);
-[s,t] = scalefree(N,100);
+[s,t] = scalefree(N,3);
 % [s,t] = smallworld(N,100,0.2);
 a = zeros(N);
 for i = 1:length(s)
@@ -33,11 +33,11 @@ countdown = zeros(size(sick));
 countdown(sick) = tCured+1;
 
 
-% figure
-% h = plot(g,'Layout','circle');
-% highlight(h,index(sick),'NodeColor','r')
-% drawnow
-% highlight(h,index(immune),'NodeColor','g')
+figure
+h = plot(g,'Layout','circle');
+highlight(h,index(sick),'NodeColor','r')
+drawnow
+highlight(h,index(immune),'NodeColor','g')
 
 sickCount = zeros(T,N);
 sickCount(1,:) = sick;
@@ -70,27 +70,32 @@ for t = 2:T
 	countdown(countdown ~= 0) = countdown(countdown ~= 0) - 1;
 	
 	% make cured people healthy
+	immune(sick & ~countdown) = 1;
 	sick(sick & ~countdown) = 0;
 	sickCount(t,:) = sick;
 	
 	% update the plot
-% 	highlight(h,index(sick),'NodeColor','r')
-% 	highlight(h,index(~sick & ~immune),'NodeColor','b')
-% 	title(sprintf('t=%d',t))
-% 	pause(0.5)
+	highlight(h,index(sick),'NodeColor','r')
+	highlight(h,index(~sick & ~immune),'NodeColor','b')
+	title(sprintf('t=%d',t))
+	pause(0.5)
 	
 	% Don't wanna go to far if unnecessary (God, I butchered that)
 	if sum(sick) == N || sum(sick) == 0
 		break
 	end
 end
-figure
-h = plot(g);
+
+% figure
+% h = plot(g,'Layout','circle');
 highlight(h,index(sick),'NodeColor','r')
 highlight(h,index(immune),'NodeColor','g')
 highlight(h,index(~sick & ~immune),'NodeColor','k')
 
 figure
-plot(N-sum(immune)-sum(sickCount,2))
+plot(sum(sickCount,2))
+% plot(N-sum(immune)-sum(sickCount,2))
 xlabel('time')
-ylabel('healthy, non-immune individuals')
+ylabel('sick individuals')
+% ylabel('healthy, non-immune individuals')
+
