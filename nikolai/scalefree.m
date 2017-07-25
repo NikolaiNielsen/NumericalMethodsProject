@@ -1,4 +1,4 @@
-function edges = scalefree(N,d)
+function [s,t] = scalefree(N,d)
 %We first start with fully connected network with d+1 nodes.  Which ensures the average degree of d.  For example, if d=2, then we generate [1 1; 1 2; 1 3; 2 1; 2 2; 2 3; 3 1; 3 2; 3 3], which is [s t], then we get rid of self-loops such as [1 1; 2 2; 3 3] and repetitions such as [1 2; 2 1].  After these implementation, the resulting edge list, [s t] will look like [1 2;1 3;2 3], and each node has d=2 connections as we intended.
 s=floor((d+1:d+d*(d+1))/(d+1))';
 t=(mod(d+1:d+d*(d+1),d+1)+1)';
@@ -44,4 +44,3 @@ if length(g)<i
 end
 degree=f+g;
 end
-edges = [s t];
