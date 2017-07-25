@@ -55,6 +55,8 @@ highlight(h,index(immune),'NodeColor','g')
 
 sickCount = zeros(T,N);
 sickCount(1,:) = sick;
+countCount = zeros(T,N);
+countCount(1,:) = countdown;
 
 for t = 2:T
 	m = index(sick); % Get index of sick individuals
@@ -77,14 +79,14 @@ for t = 2:T
 		newsick(alreadysick) = [];
 
 		% initiate cure countdown for newly sick
-		countdown(newsick) = tCured;
+		countdown(newsick) = tCured+1;
 		
 		% Include the newly sick in the sick vector
 		sick(newsick) = 1;
 		
 		% proper Sanitation of sickness
-		sick(sick & immune) = 0;
 		countdown(sick & immune) = 0;
+		sick(sick & immune) = 0;
 	end
 	% count down the countdown (for all that are sick and therefore not 0)
 	countdown(countdown ~= 0) = countdown(countdown ~= 0) - 1;
@@ -93,6 +95,7 @@ for t = 2:T
 	immune(sick & ~countdown) = 1;
 	sick(sick & ~countdown) = 0;
 	sickCount(t,:) = sick;
+	countCount(t,:) = countdown;
 	
 	% update the plot
 	highlight(h,index(sick),'NodeColor','r')
