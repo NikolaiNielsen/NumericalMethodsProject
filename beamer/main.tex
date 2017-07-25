@@ -1,0 +1,60 @@
+% !TEX TS-program = xelatex
+% !TEX option = -shell-escape
+\documentclass{beamer}
+\usepackage{amsmath}
+\usepackage{pgf}
+\usepackage[english]{babel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{url}
+\usepackage[separate-uncertainty=true]{siunitx}
+\usepackage{pgfplotsthemetol}
+
+\usepackage{enumitem}
+\setitemize{label=\usebeamerfont*{itemize item}%
+  \usebeamercolor[fg]{itemize item}
+  \usebeamertemplate{itemize item}}
+
+\usepgfplotslibrary{units}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{external}
+\tikzexternalize
+\pgfplotsset{
+  compat=1.13,
+  unit code/.code 2 args={\si{#1#2}},
+  ylabsh/.style={every axis y label/.style={at={(0,0.5)}, xshift=#1, rotate=90}}
+}
+
+\usetheme[sectionpage=none]{metropolis}
+\title{Herd immunity in a network}
+\date{28th of July 2017}
+\author{Jens Kinch, Nikolai Plambech Nielsen \& Mads Ehrhorn}
+\institute{Niels Bohr Institute \\ University of Copenhagen}
+\begin{document}
+
+\maketitle
+
+\section{Test}
+\frame{
+\frametitle{Test}
+Test
+
+}
+
+\section{Referencer}
+\frame{
+\frametitle{Referencer}
+\begin{thebibliography}{5}
+
+\footnotesize{}
+\bibitem{koenderink}A. F. Koenderink, L. Langguth, R. Fleury, A. Alù, PRL 116, 224301 (2016)
+
+\bibitem{perrin}R. Perrin, G. M. Shallowe, T. R. Moore, S. A. Zwietlow, Proceedings of the Institute of Acoustics 28.1, 653 (2006)
+
+\bibitem{rossing}T. Rossing, Am. J. Phys. 50(3), 271 (1982)
+
+\bibitem{fletcher}N. H. Fletcher, T. Rossing, The Physics of Musical Instruments (Springer 1991)
+
+\end{thebibliography}
+}
+\end{document}
