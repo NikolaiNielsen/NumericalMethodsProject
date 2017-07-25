@@ -16,5 +16,8 @@
 !*.pdf
 !*.mat
 
+# And LaTex files
+!*.tex
+
 # And in all subdirectories
 !*/
