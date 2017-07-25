@@ -102,4 +102,3 @@ plot(sum(sickCount,2))
 xlabel('time')
 ylabel('sick individuals')
 % ylabel('healthy, non-immune individuals')
-
