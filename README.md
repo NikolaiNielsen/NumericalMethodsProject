@@ -1,2 +1,2 @@
 # Numerical Methods
-Nikolai er bögse.
+Jens er en slamkoder.
