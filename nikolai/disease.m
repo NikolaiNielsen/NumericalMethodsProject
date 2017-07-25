@@ -4,9 +4,9 @@ clc
 
 N = 1000;
 T = 100;
-p = 0.1;
+p = 0.2;
 tCured = 10;
-pImmune = 0.5;
+pImmune = 0.1;
 nNeigh = 15;
 
 % R0: average number of transmissions for an individual, over the period of
@@ -34,7 +34,8 @@ immune = false(1,N);
 immune(rand(1,N) <= pImmune) = 1;
 immune(sick & immune) = 0;
 countdown = zeros(size(sick));
-countdown(sick) = tCured+1;
+countdown(sick) = tCured;
+dead = false(1,N);
 
 
 figure
@@ -51,17 +52,23 @@ for t = 2:T
 	% Loop over the sick individuals
 	for i = 1:length(m)
 		% Get the neighbours
-		neigh = index(logical(a(:,m(i))));
+		% Logical array of neighbours for the m'th node
+		rawneigh = logical(a(:,m(i)));
+		% index values for the neighbours for the m'th node.
+		neigh = index(rawneigh);
 		
-		% The raw index of newly sick people
-		newsick = neigh(rand(size(neigh)) <= p);
+		% logical array of which neighbours should get sick
+		rawsick = rand(size(neigh)) <= p;
 		
-		% sanitize the newsick, to account for immunity.
-		% Doesn't work....
-% 		newsick = index(~immune(newsick));
+		% Translate to indecies for the sick vector
+		newsick = neigh(rawsick);
 		
+		% Delete the already sick from newsick:
+		alreadysick = (sick(newsick) == 1);
+		newsick(alreadysick) = [];
+
 		% initiate cure countdown for newly sick
-		countdown(newsick) = tCured+1;
+		countdown(newsick) = tCured;
 		
 		% Include the newly sick in the sick vector
 		sick(newsick) = 1;
