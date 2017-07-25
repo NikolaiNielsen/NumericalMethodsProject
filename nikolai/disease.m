@@ -8,6 +8,7 @@ p = 0.2;
 tCured = 10;
 pImmune = 0.1;
 nNeigh = 15;
+madsErNice = 1;
 
 % R0: average number of transmissions for an individual, over the period of
 % sickness (tCured)
@@ -16,16 +17,24 @@ nNeigh = 15;
 % neighbour.
 % pMat = (1+nNeigh/N)/2;
 
-% a = adjmatrix(N,pMat);
-[s,t] = scalefree(N,3);
-% [s,t] = smallworld(N,100,0.2);
-a = zeros(N);
-for i = 1:length(s)
-   a(s(i),t(i)) = 1; 
+if madsErNice == 0
+    % a = adjmatrix(N,pMat);
+    [s,t] = scalefree(N,3);
+    % [s,t] = smallworld(N,100,0.2);
+    a = zeros(N);
+    for i = 1:length(s)
+       a(s(i),t(i)) = 1; 
+    end
+    a(end,end) = 0;
+    a = a+a';
+else
+    load('../mads/network.mat')
+    a = A;
+    N = length(A);
 end
-a(end,end) = 0;
-a = a+a';
+
 g = graph(a);
+
 
 index = 1:N;
 sick = false(1,N);
@@ -39,7 +48,7 @@ dead = false(1,N);
 
 
 figure
-h = plot(g,'Layout','circle');
+h = plot(g);
 highlight(h,index(sick),'NodeColor','r')
 drawnow
 highlight(h,index(immune),'NodeColor','g')

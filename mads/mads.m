@@ -1,20 +1,45 @@
 close all
 
-x = random_modular_graph(3000,4,0.4,0.9);
+x = random_modular_graph(100,2,0.4,1);
 
 G = graph(x);
+figure()
+plot(G)
 
+moduleOne = find(conncomp(G)==1);
+moduleTwo = find(conncomp(G)==2);
+
+for i = 1:4
+    neighModuleOne = neighbors(G,moduleOne(i));
+    neighModuleTwo = neighbors(G,moduleTwo(i));
+    neigh = unique(cat(1,neighModuleOne,neighModuleTwo));
+    newGuy = ones(length(neigh),1)*(size(G.Nodes,1)+1);
+    G = addedge(G,newGuy,neigh,1);
+    G = rmedge(G,moduleOne(i));
+    G = rmedge(G,moduleTwo(i));
+    clear neighModuleOne
+    clear neighModuleTwo
+    clear neigh
+    clear newGuy
+end
+
+figure()
+plot(G)
+
+A = adjacency(G);
+
+save('network.mat','A')
+
+%%
 people.sick = zeros(size(G.Nodes,1),1);
 people.sickTime = zeros(size(G.Nodes,1),1);
 people.dead = zeros(size(G.Nodes,1),1);
 people.immune = zeros(size(G.Nodes,1),1);
-diseaseLength = 5;
+diseaseLength = 10;
 
-pSick = 0.5;
+pSick = 0.01;
 pImmune = 0.5;
 mortalityRate = 0.5;
-
-pCrit = 1 - 1/(pSick*100)
 
 maxIter = 100;
 
@@ -67,7 +92,7 @@ for i = 1:length(sickos)
     end
 end
 
-h = plot(G);
+h = plot(G,'Layout','circle');
 title(['Iter ' num2str(k) ''])
 highlight(h,find(people.immune==1),'NodeColor','g');
 highlight(h,find(people.sick==1),'NodeColor','r');
@@ -83,5 +108,7 @@ if length(find(people.sick==1 & people.immune==1)) > 0
 end
 
 k = k + 1;
+
+healthy(k) = length(find(people.sick==0 & people.dead==0));
 
 end
