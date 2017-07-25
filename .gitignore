@@ -14,8 +14,7 @@
 !*.tex
 !*.png
 !*.pdf
+!*.mat
 
 # And in all subdirectories
 !*/
-*materialer
-!/NumMetWeek4
