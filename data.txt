@@ -1,0 +1,8 @@
+		R_0		doedelighed
+Ebola		1.5-2.5		0.25-0.9
+bpest		3		0.6
+pnpest		2		0.9-0.95	
+maeslinger	12-18		0.15
+influenza	1.5-1.8		0.001
+sars		2-5		0.096
+polio		5-7		0.15-0.30
