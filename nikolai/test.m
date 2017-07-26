@@ -14,7 +14,7 @@ numNetworks = 100;
 nNeigh = 15;
 a = adjmatrix(N,nNeigh);
 
-[sickCount, immuneCount, deadCount] = disease(a,T,tCured,sigCured,R0,pImmune);
+[sickCount, immuneCount, deadCount] = disease(a,T,tCured,sigCured,R0,pImmune,0.25);
 g = graph(a);
 
 index = 1:length(a);
@@ -25,8 +25,10 @@ for t = 1:T
 	sick = sickCount(t,:);
 	immune = immuneCount(t,:);
 	dead = deadCount(t,:);
+	living = (~sick & ~immune & ~dead);
 	highlight(h,index(sick),'NodeColor','r')
 	highlight(h,index(immune),'NodeColor','g')
 	highlight(h,index(dead),'NodeColor','k')
+	highlight(h,index(living),'NodeColor','b')
 	pause(0.5)
 end

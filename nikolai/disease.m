@@ -1,15 +1,17 @@
-function [sickCount,immuneCount,deadCount] = disease(a,T,tCured,sigCured,R0,pImmune)
+function [sickCount,immuneCount,deadCount] ...
+= disease(a,T,tCured,sigCured,R0,pImmune,mortality)
 
 % Input parameters:
-% a:		adjacency matrix or edge list
-% T:		end time (T-1 iterations, as the first timestep is the initial
-%			condition)
-% tCured:	mean time of incubation
-% sigCured:	standard deviation of incubation time (set to 0 for no normal
-%			distribution)
-% R0:		Mean number of transmissions for a sick individual, over the
-%			sickness period
-% pImmune:	Percentage of immune individuals at the start.
+% a:			adjacency matrix or edge list
+% T:			end time (T-1 iterations, as the first timestep is the 
+%				initial condition)
+% tCured:		mean time of incubation
+% sigCured:		standard deviation of incubation time (set to 0 for no
+% 				normal distribution)
+% R0:			Mean number of transmissions for a sick individual, over 
+%				the sickness period
+% pImmune:		Percentage of immune individuals at the start.
+% mortality:	Mortality rate
 
 % ouputs:
 % sickCount:	the individuals sick in every iteration
@@ -100,9 +102,13 @@ for t = 2:T
 	% count down the countdown (for all that are sick and therefore not 0)
 	countdown(countdown ~= 0) = countdown(countdown ~= 0) - 1;
 	
-	% make cured people healthy
-	dead(sick & ~countdown) = 1;
-	sick(sick & ~countdown) = 0;
+	% handle death
+	countDone = (sick & ~countdown);
+	dies = countDone(rand(size(countDone))<=mortality);
+% 	lives = countDone;
+% 	lives(dies) = [];
+	dead(dies) = 1;
+	sick(countDone) = 0;
 	
 	% log values for plotting
 	sickCount(t,:) = sick;
