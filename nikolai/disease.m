@@ -1,5 +1,17 @@
 function [g,sickCount,immune,dead] = disease(a,T,tCured,sigCured,R0,pImmune)
 
+% Input parameters:
+% a:		adjacency matrix or edge list
+% T:		end time (T-1 iterations, as the first timestep is the initial
+%			condition)
+% tCured:	mean time of incubation
+% sigCured:	standard deviation of incubation time (set to 0 for no normal
+%			distribution)
+% R0:		Mean number of transmissions for a sick individual, over the
+%			sickness period
+% pImmune:	Percentage of immune individuals at the start.
+
+
 % Things to implement:
 % - proper death
 % - flag to immunize or kill after poop
