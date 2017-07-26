@@ -1,4 +1,4 @@
-function [g,sickCount,immuneCount,dead] = disease(a,T,tCured,sigCured,R0,pImmune)
+function [g,sickCount,immuneCount,deadCount] = disease(a,T,tCured,sigCured,R0,pImmune)
 
 % Input parameters:
 % a:		adjacency matrix or edge list
@@ -13,7 +13,6 @@ function [g,sickCount,immuneCount,dead] = disease(a,T,tCured,sigCured,R0,pImmune
 
 
 % Things to implement:
-% - proper death
 % - flag to immunize or kill after poop
 % - chance of death (immunize otherwise) - Mortality rate (thank Mads)
 % - differentiate between incubation and sickness
@@ -64,6 +63,9 @@ countCount = zeros(T,N);
 countCount(1,:) = countdown;
 immuneCount = false(T,N);
 immuneCount(1,:) = immune;
+deadCount = false(T,N);
+deadCount(1,:) = dead;
+
 
 for t = 2:T
 	m = index(sick); % Get index of sick individuals
@@ -92,20 +94,21 @@ for t = 2:T
 		sick(newsick) = 1;
 		
 		% proper Sanitation of sickness
-		countdown(sick & immune) = 0;
-		sick(sick & immune) = 0;
+		countdown(sick & (immune | dead)) = 0;
+		sick(sick & (immune | dead)) = 0;
 	end
 	% count down the countdown (for all that are sick and therefore not 0)
 	countdown(countdown ~= 0) = countdown(countdown ~= 0) - 1;
 	
 	% make cured people healthy
-	immune(sick & ~countdown) = 1;
+	dead(sick & ~countdown) = 1;
 	sick(sick & ~countdown) = 0;
 	
 	% log values for plotting
 	sickCount(t,:) = sick;
 	countCount(t,:) = countdown;
 	immuneCount(t,:) = immune;
+	deadCount(t,:) = dead;
 	
 	% Don't wanna go to far if unnecessary (God, I butchered that)
 	if sum(sick) == N || sum(sick) == 0
