@@ -58,11 +58,11 @@ countdown = zeros(size(sick));
 countdown(sick) = tCured;
 dead = false(1,N);
 
-sickCount = zeros(T,N);
+sickCount = false(T,N);
 sickCount(1,:) = sick;
 countCount = zeros(T,N);
 countCount(1,:) = countdown;
-immuneCount = zeros(T,N);
+immuneCount = false(T,N);
 immuneCount(1,:) = immune;
 
 for t = 2:T
@@ -111,4 +111,9 @@ for t = 2:T
 	if sum(sick) == N || sum(sick) == 0
 		break
 	end
+end
+
+sickCount = sickCount(1:t,:);
+immuneCount = immuneCount(1:t,:);
+
 end
