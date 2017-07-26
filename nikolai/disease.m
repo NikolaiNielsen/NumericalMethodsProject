@@ -1,4 +1,11 @@
-function [g,sickCount,immune,dead] = disease(a,T,tCured,R0,pImmune)
+function [g,sickCount,immune,dead] = disease(a,T,tCured,sigCured,R0,pImmune)
+
+% Things to implement:
+% - proper death
+% - flag to immunize or kill after poop
+% - chance of death (immunize otherwise) - Mortality rate (thank Mads)
+% - differentiate between incubation and sickness
+
 
 [r,c] = size(a);
 if r == c % Square matrix
@@ -65,7 +72,7 @@ for t = 2:T
 		newsick(alreadysick) = [];
 
 		% initiate cure countdown for newly sick
-		countdown(newsick) = tCured+1;
+		countdown(newsick) = round(sigCured*randn(size(newsick))+tCured+1);
 		
 		% Include the newly sick in the sick vector
 		sick(newsick) = 1;
