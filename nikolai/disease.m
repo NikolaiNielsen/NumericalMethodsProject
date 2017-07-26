@@ -3,7 +3,7 @@ function [g,sickCount,immune,dead] = disease(a,T,tCured,R0,pImmune)
 [r,c] = size(a);
 if r == c % Square matrix
 	N = r;
-elseif xor(c==2,r==2) % Edgelist
+elseif c == 2 % Edgelist
 	N = max(a(:));
 	s = a(:,1);
 	t = a(:,2);
@@ -13,6 +13,8 @@ elseif xor(c==2,r==2) % Edgelist
     end
     a(end,end) = 0;
     a = a+a';
+else
+	error('du er dum. a skal være Nx2 eller NxN')
 end
 nNeigh = mean(sum(a));
 
