@@ -3,8 +3,8 @@ close all
 clc
 
 R0 = 1;
-mortality = 0.575;
-name = 'Ebola';
+mortality = 0.6;
+name = 'test';
 
 N = 1000;
 T = 100;
@@ -24,19 +24,7 @@ for j = 1:numNetworks
 	a = adjmatrix(N,nNeigh);
 	sicks = zeros(1,numSims);
 	for i = 1:numSims
-		[sickCount, ~, ~] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
-
-		% index = 1:length(a);
-		% T = size(immuneCount,1);
-		% figure
-		% h = plot(g);
-		% for t = 1:T
-		% 	sick = sickCount(t,:);
-		% 	immune = immuneCount(t,:);
-		% 	highlight(h,index(sick),'NodeColor','r')
-		% 	highlight(h,index(immune),'NodeColor','g')
-		% 	pause(0.5)
-		% end
+		[sickCount, immuneCount, deadCount] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
 		sicks(1,i) = sum(sum(sickCount,1)>0);
     end
 	sickNet{p,j} = sicks;
@@ -44,9 +32,16 @@ for j = 1:numNetworks
 end
 end
 try
-    save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune')
+    save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune',...
+        'sickCount','immuneCount','deadCount')
 catch
-    save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune')
+    % try again
+    try
+        save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune',...
+            'sickCount','immuneCount','deadCount')
+    catch
+       error(sprintf('Could not save. name = r%s, p = %d, j = %d',name,p,j))
+    end
 end
 
 %% Scale free
@@ -57,19 +52,7 @@ for j = 1:numNetworks
     a = [s,t];
 	sicks = zeros(1,numSims);
 	for i = 1:numSims
-		[sickCount, ~, ~] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
-
-		% index = 1:length(a);
-		% T = size(immuneCount,1);
-		% figure
-		% h = plot(g);
-		% for t = 1:T
-		% 	sick = sickCount(t,:);
-		% 	immune = immuneCount(t,:);
-		% 	highlight(h,index(sick),'NodeColor','r')
-		% 	highlight(h,index(immune),'NodeColor','g')
-		% 	pause(0.5)
-		% end
+		[sickCount, immuneCount, deadCount] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
 		sicks(1,i) = sum(sum(sickCount,1)>0);
     end
 	sickNet{p,j} = sicks;
@@ -77,9 +60,16 @@ for j = 1:numNetworks
 end
 end
 try
-    save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune')
+    save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune',...
+        'sickCount','immuneCount','deadCount')
 catch
-    save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune')
+    % try again
+    try
+        save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune',...
+            'sickCount','immuneCount','deadCount')
+    catch
+       error(sprintf('Could not save. name = sf%s, p = %d, j = %d',name,p,j))
+    end
 end
 
 %% Small world
@@ -90,19 +80,7 @@ for j = 1:numNetworks
     a = [s,t];
 	sicks = zeros(1,numSims);
 	for i = 1:numSims
-		[sickCount, ~, ~] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
-
-		% index = 1:length(a);
-		% T = size(immuneCount,1);
-		% figure
-		% h = plot(g);
-		% for t = 1:T
-		% 	sick = sickCount(t,:);
-		% 	immune = immuneCount(t,:);
-		% 	highlight(h,index(sick),'NodeColor','r')
-		% 	highlight(h,index(immune),'NodeColor','g')
-		% 	pause(0.5)
-		% end
+		[sickCount, immuneCount, deadCount] = disease(a,T,tCured,sigCured,R0,pImmune(p),mortality);
 		sicks(1,i) = sum(sum(sickCount,1)>0);
     end
 	sickNet{p,j} = sicks;
@@ -110,9 +88,16 @@ for j = 1:numNetworks
 end
 end
 try
-    save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune')
+    save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune',...
+        'sickCount','immuneCount','deadCount')
 catch
-    save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune')
+    % try again
+    try
+        save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune',...
+            'sickCount','immuneCount','deadCount')
+    catch
+       error(sprintf('Could not save. name = sw%s, p = %d, j = %d',name,p,j))
+    end
 end
 
 
