@@ -1,4 +1,4 @@
-function [g,sickCount,immuneCount,deadCount] = disease(a,T,tCured,sigCured,R0,pImmune)
+function [sickCount,immuneCount,deadCount] = disease(a,T,tCured,sigCured,R0,pImmune)
 
 % Input parameters:
 % a:		adjacency matrix or edge list
@@ -10,6 +10,11 @@ function [g,sickCount,immuneCount,deadCount] = disease(a,T,tCured,sigCured,R0,pI
 % R0:		Mean number of transmissions for a sick individual, over the
 %			sickness period
 % pImmune:	Percentage of immune individuals at the start.
+
+% ouputs:
+% sickCount:	the individuals sick in every iteration
+% immuneCount:	the individuals immune in every iteration
+% deadCount:	The individuals dead in every iteration
 
 
 % Things to implement:
@@ -43,16 +48,11 @@ nNeigh = mean(sum(a));
 % neighbour.
 p = R0/(tCured*nNeigh);
 
-
-g = graph(a);
-
-
 index = 1:N;
 sick = false(1,N);
 immune = false(1,N);
 immune(rand(1,N) <= pImmune) = 1;
 sick(find(~immune,1)) = 1; % make the first non-immune person sick
-% immune(sick & immune) = 0;
 countdown = zeros(size(sick));
 countdown(sick) = tCured;
 dead = false(1,N);
@@ -118,5 +118,6 @@ end
 
 sickCount = sickCount(1:t,:);
 immuneCount = immuneCount(1:t,:);
+deadCount = deadCount(1:t,:);
 
 end
