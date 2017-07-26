@@ -37,12 +37,12 @@ end
 end
 try
     save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune',...
-        'sickCount','immuneCount','deadCount')
+        'sickData','immuneData','deadData')
 catch
     % try again
     try
         save(sprintf('../data/r%s.mat',name),'sickNet','nNeigh','pImmune',...
-            'sickCount','immuneCount','deadCount')
+            'sickData','immuneData','deadData')
     catch
        error(sprintf('Could not save. name = r%s, p = %d, j = %d',name,p,j))
     end
@@ -69,12 +69,12 @@ end
 end
 try
     save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune',...
-        'sickCount','immuneCount','deadCount')
+        'sickData','immuneData','deadData')
 catch
     % try again
     try
         save(sprintf('../data/sf%s.mat',name),'sickNet','nNeigh','pImmune',...
-            'sickCount','immuneCount','deadCount')
+            'sickData','immuneData','deadData')
     catch
        error(sprintf('Could not save. name = sf%s, p = %d, j = %d',name,p,j))
     end
@@ -101,12 +101,12 @@ end
 end
 try
     save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune',...
-        'sickCount','immuneCount','deadCount')
+        'sickData','immuneData','deadData')
 catch
     % try again
     try
         save(sprintf('../data/sw%s.mat',name),'sickNet','nNeigh','pImmune',...
-            'sickCount','immuneCount','deadCount')
+            'sickData','immuneData','deadData')
     catch
        error(sprintf('Could not save. name = sw%s, p = %d, j = %d',name,p,j))
     end
