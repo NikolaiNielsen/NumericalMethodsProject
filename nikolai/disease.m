@@ -21,7 +21,6 @@ function [sickCount,immuneCount,deadCount] ...
 
 % Things to implement:
 % - flag to immunize or kill after poop
-% - chance of death (immunize otherwise) - Mortality rate (thank Mads)
 % - differentiate between incubation and sickness
 
 
@@ -102,12 +101,17 @@ for t = 2:T
 	% count down the countdown (for all that are sick and therefore not 0)
 	countdown(countdown ~= 0) = countdown(countdown ~= 0) - 1;
 	
-	% handle death
+	% See whose countdown ends:
 	countDone = (sick & ~countdown);
+	% See whom of those die
 	dies = countDone(rand(size(countDone))<=mortality);
-% 	lives = countDone;
-% 	lives(dies) = [];
+	% kill them
 	dead(dies) = 1;
+	% Turn those who survive immune
+	lives = countDone;
+	lives(dies) = [];
+	immune(lives) = 1;
+	% Turn them all not sick.
 	sick(countDone) = 0;
 	
 	% log values for plotting
