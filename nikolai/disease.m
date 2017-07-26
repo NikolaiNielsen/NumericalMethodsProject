@@ -1,57 +1,41 @@
-clear all
-close all
-clc
+function [g,sickCount,immune,dead] = disease(a,T,tCured,R0,pImmune)
 
-N = 1000;
-T = 100;
-p = 0.2;
-tCured = 10;
-pImmune = 0.1;
-nNeigh = 15;
-madsErNice = 1;
+[r,c] = size(a);
+if r == c % Square matrix
+	N = r;
+elseif xor(c==2,r==2) % Edgelist
+	N = max(a(:));
+	s = a(:,1);
+	t = a(:,2);
+	a = zeros(N);
+    for i = 1:length(a)
+       a(s(i),t(i)) = 1; 
+    end
+    a(end,end) = 0;
+    a = a+a';
+end
+nNeigh = mean(sum(a));
 
 % R0: average number of transmissions for an individual, over the period of
 % sickness (tCured)
 % R0/tCured = average number of transmissions for an individual, per round
 % (R0/tCured)/nNeigh = probability of spreading disease to every individual
 % neighbour.
-% pMat = (1+nNeigh/N)/2;
+p = R0/(tCured*nNeigh);
 
-if madsErNice == 0
-    % a = adjmatrix(N,pMat);
-    [s,t] = scalefree(N,3);
-    % [s,t] = smallworld(N,100,0.2);
-    a = zeros(N);
-    for i = 1:length(s)
-       a(s(i),t(i)) = 1; 
-    end
-    a(end,end) = 0;
-    a = a+a';
-else
-    load('../mads/network.mat')
-    a = A;
-    N = length(A);
-end
 
 g = graph(a);
 
 
 index = 1:N;
 sick = false(1,N);
-sick([16 ]) = 1;
 immune = false(1,N);
 immune(rand(1,N) <= pImmune) = 1;
-immune(sick & immune) = 0;
+sick(find(~immune,1)) = 1; % make the first non-immune person sick
+% immune(sick & immune) = 0;
 countdown = zeros(size(sick));
 countdown(sick) = tCured;
 dead = false(1,N);
-
-
-figure
-h = plot(g);
-highlight(h,index(sick),'NodeColor','r')
-drawnow
-highlight(h,index(immune),'NodeColor','g')
 
 sickCount = zeros(T,N);
 sickCount(1,:) = sick;
@@ -108,16 +92,3 @@ for t = 2:T
 		break
 	end
 end
-
-% figure
-% h = plot(g,'Layout','circle');
-highlight(h,index(sick),'NodeColor','r')
-highlight(h,index(immune),'NodeColor','g')
-highlight(h,index(~sick & ~immune),'NodeColor','k')
-
-figure
-plot(sum(sickCount,2))
-% plot(N-sum(immune)-sum(sickCount,2))
-xlabel('time')
-ylabel('sick individuals')
-% ylabel('healthy, non-immune individuals')
