@@ -102,12 +102,6 @@ for t = 2:T
 	sickCount(t,:) = sick;
 	countCount(t,:) = countdown;
 	
-	% update the plot
-	highlight(h,index(sick),'NodeColor','r')
-	highlight(h,index(~sick & ~immune),'NodeColor','b')
-	title(sprintf('t=%d',t))
-	pause(0.5)
-	
 	% Don't wanna go to far if unnecessary (God, I butchered that)
 	if sum(sick) == N || sum(sick) == 0
 		break
