@@ -1,4 +1,4 @@
-function [g,sickCount,immune,dead] = disease(a,T,tCured,sigCured,R0,pImmune)
+function [g,sickCount,immuneCount,dead] = disease(a,T,tCured,sigCured,R0,pImmune)
 
 % Input parameters:
 % a:		adjacency matrix or edge list
@@ -62,6 +62,8 @@ sickCount = zeros(T,N);
 sickCount(1,:) = sick;
 countCount = zeros(T,N);
 countCount(1,:) = countdown;
+immuneCount = zeros(T,N);
+immuneCount(1,:) = immune;
 
 for t = 2:T
 	m = index(sick); % Get index of sick individuals
@@ -99,8 +101,11 @@ for t = 2:T
 	% make cured people healthy
 	immune(sick & ~countdown) = 1;
 	sick(sick & ~countdown) = 0;
+	
+	% log values for plotting
 	sickCount(t,:) = sick;
 	countCount(t,:) = countdown;
+	immuneCount(t,:) = immune;
 	
 	% Don't wanna go to far if unnecessary (God, I butchered that)
 	if sum(sick) == N || sum(sick) == 0
