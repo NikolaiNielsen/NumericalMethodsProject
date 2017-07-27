@@ -71,11 +71,9 @@
     \end{itemize}
     \item \( \text{HIT} = 1 - 1/R_0 \)
     \item \( N \): no. of people initially
-    \item \( n_\text{sick} \): no. of sick people
-    \item \( n_\text{immune} \): no. of immune people
     \item \( n_\text{dead} \): no. of dead people
     \item \( n_\text{healthy} \): no. of healthy people (not immune)
-    \item \( R_e = R_0 \cdot n_\text{healthy} / \left( N - n_\text{dead} \right)\)
+    %\item \( R_e = R_0 \cdot n_\text{healthy} / \left( N - n_\text{dead} \right)\)
 \end{itemize}
 
 }
@@ -217,8 +215,8 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
     \item Test 20 values of \(p_I\) (0 to 0.95, in steps of 0.05)
     \pause
     \item For each \(p_I\) test 50 different networks, and test each network 50 times (random distribution of patient zero and immune nodes)
-    \pause
-    \item Save relevant output
+    %\pause
+    %\item Save relevant output
 \end{itemize}
 
 }
@@ -362,10 +360,10 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
             \addlegendentry{Polio}
             \addplot [only marks,blue] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/Measles_twoCity.csv};
             \addlegendentry{Measles}
-            \addplot [only marks] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/Sars_twoCity.csv};
+            \addplot [only marks] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/Ebola_twoCity.csv};
             \addlegendentry{Ebola}
-            \draw [dashed,red] (0.92,0) -- (0.92,1.3);
-            \draw [dashed,red] (0.94,0) -- (0.94,1.3);
+            %\draw [dashed,red] (0.92,0) -- (0.92,1.3);
+            %\draw [dashed,red] (0.94,0) -- (0.94,1.3);
         \end{axis}
     \end{tikzpicture}
 \end{figure}
