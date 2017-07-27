@@ -2,7 +2,7 @@ clear all
 close all
 clc
 
-names = {'Measles','Sars','Polio'};
+names = {'Measles','Ebola','Polio'};
 thresh = 5;
 pImmune = 0:0.05:0.95;
 
