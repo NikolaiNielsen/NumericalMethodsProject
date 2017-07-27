@@ -9,22 +9,17 @@
 \usepackage{url}
 \usepackage[separate-uncertainty=true]{siunitx}
 \usepackage{pgfplotsthemetol}
-
 \usepackage{enumitem}
-\setitemize{label=\usebeamerfont*{itemize item}%
-  \usebeamercolor[fg]{itemize item}
-  \usebeamertemplate{itemize item}}
-
+\setbeamertemplate{itemize items}[default]
 \usepgfplotslibrary{units}
 \usepgfplotslibrary{groupplots}
-\usetikzlibrary{external}
-\tikzexternalize
+%\usetikzlibrary{external}
+%\tikzexternalize
 \pgfplotsset{
-  compat=1.13,
+  compat=newest,
   unit code/.code 2 args={\si{#1#2}},
   ylabsh/.style={every axis y label/.style={at={(0,0.5)}, xshift=#1, rotate=90}}
 }
-
 \usetheme[sectionpage=none]{metropolis}
 \title{Herd immunity in a network}
 \date{28th of July 2017}
@@ -34,27 +29,83 @@
 
 \maketitle
 
-\section{Test}
+\section{Introduction}
 \frame{
-\frametitle{Test}
-\begin{enumerate}
-    \item Forskellige spredningsprocenter
-    \item Forskellige vaccinationsprocenter
-    \item Forskellige netværkstyper
-    \item Herd immunity threshold
-    \item Flyrejse?
-\end{enumerate}
+\frametitle{Introduction}
+\begin{itemize}
+    \item Herd immunity
+    \item Disease types
+    \item Networks
+\end{itemize}
+
+
 
 }
 
-\section{Referencer}
+\section{Code}
 \frame{
-\frametitle{Referencer}
-\begin{thebibliography}{5}
+\frametitle{Code}
+How did we (Nikolai) code the shit outta this motherfucker?
 
-\footnotesize{}
-\bibitem{fakealicious}Fake ref
+% \begin{figure}
+% \input{./flowchart/flowchart.tex}
+% \end{figure}
 
-\end{thebibliography}
 }
+
+\section{Herd immunity}
+\frame{
+\frametitle{Herd immunity}
+
+\begin{itemize}[label=\textbullet]
+    \item \( R_0 \): `basic reproduction number'
+    \begin{itemize}
+        \item Avg. no. of people infected pr. person
+    \end{itemize}
+    \item \( p_c \): critical proportion of pop. immunized
+    \begin{itemize}
+        \item \( p_c = 1 - 1/R_0 \)
+    \end{itemize}
+    \item Herd immunity passively protects whole population
+\end{itemize}
+
+}
+
+\section{Networks}
+\frame{
+\frametitle{Networks}
+The types of networks we be bitchin' up.
+
+I love you. And I miss you.
+
+Walkthrough of random, small world, scale free and custom networks.
+
+}
+
+\section{The simulations}
+\frame{
+\frametitle{The simulations}
+How we simul'ed.
+
+}
+
+\section{Results}
+\frame{
+\frametitle{Results}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\% immune,
+            ylabel=\% of runs with no. of sick \( \leq 5 \),
+            title=Ebola, small world, \( N = 1000 \)
+            ]
+            \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+}
+
 \end{document}

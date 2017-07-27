@@ -22,3 +22,6 @@ errorbar(pImmune,means,stds,'.')
 xlabel('percentage immune')
 ylabel('percent of runs with num. sick $\leq$ 5')
 title('Ebola on a small world network. N = 1000')
+
+dlmwrite('ebola_smallworld.csv', ... 
+    cat(2,pImmune',means,stds),'delimiter', ',','precision', 9);
