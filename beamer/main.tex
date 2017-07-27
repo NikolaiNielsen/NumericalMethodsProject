@@ -52,19 +52,10 @@
 \frametitle{Introduction}
 \begin{itemize}
     \item Herd immunity
-    \item Disease types
-    \item Networks
-\end{itemize}
-
-}
-
-\section{Herd immunity}
-\frame{
-\frametitle{Herd immunity}
-\begin{itemize}
-    \item Protect the flock by immunizing
-    \item Disease types
-    \item Networks
+    \pause
+    \item Diseases simulated
+    \pause
+    \item Networks used in simulations
 \end{itemize}
 
 }
@@ -78,10 +69,12 @@
     \begin{itemize}
         \item Avg. no. of people infected pr. person
     \end{itemize}
+	\pause
     \item \( p_c \): herd immunity threshold
     \begin{itemize}
         \item \( p_c = 1 - 1/R_0 \)
     \end{itemize}
+    \pause
     \item Herd immunity passively protects whole population
 \end{itemize}
 
@@ -149,7 +142,7 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
     \item Small world
     \item Scale free
     \item Random
-    \item Custom network (two cities with commuters)
+    \item Custom network (two cities with commuters. Random networks for each city)
 \end{itemize}
 
 }
@@ -199,17 +192,20 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 \begin{itemize}[label=\textbullet]
     \item Real world
     \begin{itemize}[label=\textbullet]
-        \item No percolation
         \item Disease no longer endemic
     \end{itemize}
     \item Our model
     \begin{itemize}[label=\textbullet]
-        \item Unable to define percolation
         \item Discussion of alternate criteria
         \begin{itemize}[label=\textbullet]
+        	\item Percolation
+        	\pause
             \item \textbf{Total sick \( < \) arbitrary threshold}
+            \pause
             \item Effective reproductive number \( \leq 1 \)
+            \pause
             \item \( n_{\text{sick}} = 0 \) and \( n_{\text{healthy}} \neq 0 \)
+            \pause
             \item \( n_{\text{healthy}} = 0 \)
         \end{itemize}
     \end{itemize}
@@ -222,8 +218,10 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 \frametitle{The simulations}
 
 \begin{itemize}[label=\textbullet]
-    \item Run each disease 50 times on each network
-    \item With 20 \( p_I \) values
+    \item Test 20 values of \(p_I\) (0 to 0.95, in steps of 0.05)
+    \pause
+    \item For each \(p_I\) test 50 different networks, and test each network 50 times (random distribution of patient zero and immune nodes)
+    \pause
     \item Save relevant output
 \end{itemize}
 
@@ -348,9 +346,7 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 \frametitle{Conclusion}
 
 \begin{itemize}
-    \item noget med krav
-    \item opdel kode?
-    \item noget mere?
+    \item Simulating the spread of disease is easy. Defining herd immunity is hard.
 \end{itemize}
 
 
