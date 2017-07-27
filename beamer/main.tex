@@ -10,9 +10,14 @@
 \usepackage[separate-uncertainty=true]{siunitx}
 \usepackage{pgfplotsthemetol}
 \usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{bm}
+\usepackage{hyperref}
+\usepackage[font=scriptsize,labelfont=bf]{caption}
 \setbeamertemplate{itemize items}[default]
 \usepgfplotslibrary{units}
 \usepgfplotslibrary{groupplots}
+\usetikzlibrary{arrows,shapes.geometric,positioning}
 %\usetikzlibrary{external}
 %\tikzexternalize
 \pgfplotsset{
@@ -20,6 +25,16 @@
   unit code/.code 2 args={\si{#1#2}},
   ylabsh/.style={every axis y label/.style={at={(0,0.5)}, xshift=#1, rotate=90}}
 }
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20,
+    text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20,
+    text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+    minimum height=2em]
+
 \usetheme[sectionpage=none]{metropolis}
 \title{Herd immunity in a network}
 \date{28th of July 2017}
@@ -38,18 +53,16 @@
     \item Networks
 \end{itemize}
 
-
-
 }
 
-\section{Code}
+\section{Herd immunity}
 \frame{
-\frametitle{Code}
-How did we (Nikolai) code the shit outta this motherfucker?
-
-% \begin{figure}
-% \input{./flowchart/flowchart.tex}
-% \end{figure}
+\frametitle{Herd immunity}
+\begin{itemize}
+    \item Protect the flock by immunizing
+    \item Disease types
+    \item Networks
+\end{itemize}
 
 }
 
@@ -62,7 +75,7 @@ How did we (Nikolai) code the shit outta this motherfucker?
     \begin{itemize}
         \item Avg. no. of people infected pr. person
     \end{itemize}
-    \item \( p_c \): critical proportion of pop. immunized
+    \item \( p_c \): herd immunity threshold
     \begin{itemize}
         \item \( p_c = 1 - 1/R_0 \)
     \end{itemize}
@@ -71,21 +84,130 @@ How did we (Nikolai) code the shit outta this motherfucker?
 
 }
 
+\section{Diseases}
+\frame{
+\frametitle{Diseases}
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\label{my-label}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{}        & \( \bm{R_0} \) & \textbf{Mortality rate} & \textbf{HIT}       \\ \midrule
+Ebola            & 1.5-2.5       & 0.25-0.90               & 0.33-0.60 \\
+Bubonic plague   & 3             & 0.6                     & 0.67      \\
+Pneumonic plague & 2             & 0.90-0.95               & 0.50      \\ \midrule
+Measles          & 12-18         & 0.15                    & 0.92-0.94 \\
+Flu              & 1.5-1.8       & 0.001                   & 0.33-0.44 \\
+SARS             & 2-5           & 0.096                   & 0.50-0.80 \\
+Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \bottomrule
+\end{tabular}
+\caption{Data from \url{https://en.wikipedia.org/wiki/Herd_immunity} \& \url{https://www.duo.uio.no/bitstream/handle/10852/45490/KDPlagueThesis.pdf?sequence=9}}
+\end{table}
+
+}
+
+\section{Code}
+\frame{
+\frametitle{Code}
+
+\begin{figure}
+    \begin{tikzpicture}[node distance = 1cm, auto,scale=2]
+        % Place nodes
+        \node [block] (init) {Initialize model};
+        \node [cloud, left of=init] (expert) {Input args};
+        \node [block, right= of init] (identify) {Set patient zero};
+        \node [block, below= of identify] (evaluate) {Find neighbors};
+        \node [block, left= of evaluate] (transmit) {Evaluate neighbors, transmit};
+        \node [block, left= of transmit] (cure) {Evaluate sick, kill and cure};
+        \node [decision, below of = transmit] (decide) {Break?};
+        \node [block, right= of decide, node distance=3cm] (update) {Update model};
+        \node [block, left= of decide, node distance=3cm] (stop) {Stop};
+        % Draw edges
+        \path [line,dashed] (expert) -- (init);
+        \path [line] (init) -- (identify);
+        \path [line] (identify) -- (evaluate);
+        \path [line] (evaluate) -- (transmit);
+        \path [line] (transmit) -- (cure);
+        \path [line] (decide) -- node {No} (update);
+        \path [line] (update) -- (evaluate);
+        \path [line] (decide) -- node {Yes} (stop);
+        \path [line] (cure) -- (decide);
+    \end{tikzpicture}
+\end{figure}
+
+}
+
 \section{Networks}
 \frame{
 \frametitle{Networks}
-The types of networks we be bitchin' up.
 
-I love you. And I miss you.
+\begin{itemize}[label=\textbullet]
+    \item Small world
+    \item Scale free
+    \item Random
+    \item Custom network (two cities with commuters)
+\end{itemize}
 
-Walkthrough of random, small world, scale free and custom networks.
+}
+
+\section{Custom network}
+\frame{
+\frametitle{Custom network}
+
+\begin{figure}[ht]
+\begin{tikzpicture}
+    \begin{axis} [
+        xticklabels={,,},
+        yticklabels={,,},
+        title={Custom network, simulating two cities with commuters},
+        hide axis
+        ]
+        \addplot graphics [xmin=0,xmax=10,ymin=0,ymax=1] {../mads/test.png};
+    \end{axis}
+\end{tikzpicture}
+\label{fig:network_twotowns}
+\end{figure}
+
+}
+
+\section{Success criteria}
+\frame{
+\frametitle{Success criteria}
+
+\begin{itemize}[label=\textbullet]
+    \item Real world
+    \begin{itemize}[label=\textbullet]
+        \item No percolation
+        \item Disease no longer endemic
+    \end{itemize}
+    \item Our model
+    \begin{itemize}[label=\textbullet]
+        \item Unable to define percolation
+        \item Discussion of alternate criteria
+        \begin{itemize}[label=\textbullet]
+            \item \textbf{Total sick \( < \) arbitrary threshold}
+            \item Effective reproductive number \( \leq 1 \)
+            \item \( n_{\text{sick}} = 0 \) and \( n_{\text{healthy}} \neq 0 \)
+            \item \( n_{\text{healthy}} = 0 \)
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
 
 }
 
 \section{The simulations}
 \frame{
 \frametitle{The simulations}
-How we simul'ed.
+
+\begin{itemize}[label=\textbullet]
+    \item Run each disease 50 times on each network
+    \item With 20 \( p_I \) values
+    \item Save relevant output
+\end{itemize}
 
 }
 
@@ -97,14 +219,96 @@ How we simul'ed.
     \centering
     \begin{tikzpicture}
         \begin{axis}[
-            xlabel=\% immune,
-            ylabel=\% of runs with no. of sick \( \leq 5 \),
-            title=Ebola, small world, \( N = 1000 \)
+            xlabel=Fraction immune,
+            ylabel=Fraction of runs with no. of sick \( \leq 5 \),
+            title={Ebola, \( N = 1000, R_0=2 \)},
+            mlineplot,
+            cycle list=mlineplot cycle,
+            xmin=0,
+            ymin=0.9,
+            y tick label style={
+                    /pgf/number format/.cd,
+                    fixed,
+                    fixed zerofill,
+                    precision=2,
+                    /tikz/.cd
+                }
             ]
             \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+            \draw [dashed,red] (0.33,0) -- (0.33,1.3);
+            \draw [dashed,red] (0.6,0) -- (0.6,1.3);
         \end{axis}
     \end{tikzpicture}
 \end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=Fraction immune,
+            ylabel=Fraction of runs with no. of sick \( \leq 5 \),
+            title={Polio, \( N = 1000, R_0=6 \)},
+            mlineplot,
+            cycle list=mlineplot cycle,
+            xmin=0,
+            ymin=0.9,
+            y tick label style={
+                    /pgf/number format/.cd,
+                    fixed,
+                    fixed zerofill,
+                    precision=2,
+                    /tikz/.cd
+                }
+            ]
+            \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+            \draw [dashed,red] (0.33,0) -- (0.33,1.3);
+            \draw [dashed,red] (0.6,0) -- (0.6,1.3);
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=Fraction immune,
+            ylabel=Fraction of runs with no. of sick \( \leq 5 \),
+            title={Measles, \( N = 1000, R_0=15 \)},
+            mlineplot,
+            cycle list=mlineplot cycle,
+            xmin=0,
+            ymin=0.9,
+            y tick label style={
+                    /pgf/number format/.cd,
+                    fixed,
+                    fixed zerofill,
+                    precision=2,
+                    /tikz/.cd
+                }
+            ]
+            \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+            \draw [dashed,red] (0.33,0) -- (0.33,1.3);
+            \draw [dashed,red] (0.6,0) -- (0.6,1.3);
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+Video Galore
 
 }
 
