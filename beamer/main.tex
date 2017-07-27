@@ -47,35 +47,35 @@
 
 \maketitle
 
-\section{Introduction}
-\frame{
-\frametitle{Introduction}
-\begin{itemize}
-    \item Herd immunity
-    \pause
-    \item Diseases simulated
-    \pause
-    \item Networks used in simulations
-\end{itemize}
-
-}
-
 \section{Herd immunity}
 \frame{
 \frametitle{Herd immunity}
 
+\begin{figure}
+    %\vspace{-1cm}
+    \centering
+    \includegraphics[scale=0.13]{Herd_immunity.png}
+    \caption{By Tkarcher - Own work, CC BY-SA 4.0, \url{https://commons.wikimedia.org/w/index.php?curid=56760604}}
+\end{figure}
+
+}
+
+\section{Variables}
+\frame{
+\frametitle{Let's frontload some variables!}
+
 \begin{itemize}[label=\textbullet]
     \item \( R_0 \): `basic reproduction number'
-    \begin{itemize}
+    \begin{itemize}[label=\textbullet]
         \item Avg. no. of people infected pr. person
     \end{itemize}
-	\pause
-    \item \( p_c \): herd immunity threshold
-    \begin{itemize}
-        \item \( p_c = 1 - 1/R_0 \)
-    \end{itemize}
-    \pause
-    \item Herd immunity passively protects whole population
+    \item \( \text{HIT} = 1 - 1/R_0 \)
+    \item \( N \): no. of people initially
+    \item \( n_\text{sick} \): no. of sick people
+    \item \( n_\text{immune} \): no. of immune people
+    \item \( n_\text{dead} \): no. of dead people
+    \item \( n_\text{healthy} \): no. of healthy people (not immune)
+    \item \( R_e = R_0 \cdot n_\text{healthy} / \left( N - n_\text{dead} \right)\)
 \end{itemize}
 
 }
@@ -147,24 +147,6 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 
 }
 
-\section{Networks}
-\frame{
-\frametitle{Movie time: two cities, death}
-
-\centering
-\href{run:test.m4v}{Movie time: two cities, death}
-
-}
-
-\section{Networks}
-\frame{
-\frametitle{Movie time: two cities, immunity}
-
-\centering
-\href{run:./immune1.m4v}{Movie time: two cities, immunity}
-
-}
-
 \section{Custom network}
 \frame{
 \frametitle{Custom network}
@@ -185,6 +167,24 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 
 }
 
+\section{Networks}
+\frame{
+\frametitle{Movie time: two cities, death}
+
+\centering
+\href{run:test.m4v}{Movie time: two cities, death}
+
+}
+
+\section{Networks}
+\frame{
+\frametitle{Movie time: two cities, immunity}
+
+\centering
+\href{run:./immune1.m4v}{Movie time: two cities, immunity}
+
+}
+
 \section{Success criteria}
 \frame{
 \frametitle{Success criteria}
@@ -199,14 +199,10 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
         \item Discussion of alternate criteria
         \begin{itemize}[label=\textbullet]
         	\item Percolation
-        	\pause
-            \item \textbf{Total sick \( < \) arbitrary threshold}
-            \pause
-            \item Effective reproductive number \( \leq 1 \)
-            \pause
+            \item Effective reproductive number \( R_e = \text{fraction of susceptible individuals} \cdot R_0 \leq 1 \)
             \item \( n_{\text{sick}} = 0 \) and \( n_{\text{healthy}} \neq 0 \)
-            \pause
             \item \( n_{\text{healthy}} = 0 \)
+            \item \textbf{Total sick \( < \) arbitrary threshold}
         \end{itemize}
     \end{itemize}
 \end{itemize}
