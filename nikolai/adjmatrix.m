@@ -6,7 +6,8 @@
 % match, row to column, the upper trangular portion-- this makes it adj...
 % add weight w, w=.5 results in all zeros, w>>1 leads to mostly 1's
 % w=1 leads to a 50/50 chance of a connection at each node
-function [A]=adjmatrix(n,w)
+function [A]=adjmatrix(n,m)
+w = (1+m/n)/2;
 A=zeros(n,n);
 k=1;
 for j=1:n-1 % Go through each row
