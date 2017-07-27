@@ -20,6 +20,9 @@
 # And LaTex files
 !*.tex
 
+# And csv files
+!*.csv
+
 # And in all subdirectories
 !*/
 data/
