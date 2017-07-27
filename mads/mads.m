@@ -30,7 +30,11 @@ A = adjacency(G);
 
 save('network.mat','A')
 
+load('twoTowns.mat')
+
 %%
+
+
 people.sick = zeros(size(G.Nodes,1),1);
 people.sickTime = zeros(size(G.Nodes,1),1);
 people.dead = zeros(size(G.Nodes,1),1);

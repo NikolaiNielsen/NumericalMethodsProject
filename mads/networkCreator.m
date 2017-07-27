@@ -1,4 +1,4 @@
-x = random_modular_graph(100,2,0.4,1);
+x = random_modular_graph(50,2,0.4,1);
 
 G = graph(x);
 figure()
@@ -22,7 +22,8 @@ for i = 1:4
 end
 
 figure()
-plot(G)
+h = plot(G);
+h.NodeLabel = [];
 
 A = adjacency(G);
 
@@ -85,3 +86,33 @@ plot(G,'Layout','force')
 A = adjacency(G);
 
 save('threeIslands.mat','A')
+
+[g,sickCount,immune,dead] = disease(A,100,10,0,2,0.01);
+
+% figure()
+% plot(1:100,
+
+%%
+clear all
+
+a = importdata('roadNet-CA.txt');
+a = a.data+1;
+
+%%
+uniqueEdgeList = unique(sort(a,2),'rows');
+
+
+%%
+H = graph();
+
+G = addedge(H,(uniqueEdgeList(:,1)),(uniqueEdgeList(:,2)));
+
+%%
+A = adjacency(G);
+
+[g,sickCount,immune,dead] = disease(A,100,10,0,2,0.01);
+
+%%
+
+figure()
+plot(G)
