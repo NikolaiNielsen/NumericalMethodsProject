@@ -23,6 +23,10 @@
 # And csv files
 !*.csv
 
+# And movies
+!*.m4v
+!*.png
+
 # And in all subdirectories
 !*/
 data/
