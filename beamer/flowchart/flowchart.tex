@@ -1,5 +1,7 @@
+\documentclass[standalone]
+\usepackage{tikz}
+\begin{document}
 \begin{tikzpicture}
-
 
 % Define block styles
 \tikzstyle{decision} = [diamond, draw, fill=blue!20,
@@ -10,29 +12,26 @@
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
 
-\begin{tikzpicture}[node distance = 2cm, auto]
+\begin{tikzpicture}[node distance = 1cm, auto]
     % Place nodes
     \node [block] (init) {Initialize model};
     \node [cloud, left of=init] (expert) {Input args};
-    % \node [cloud, right of=init] (system) {system};
-    \node [block, below of=init] (identify) {Set patient zero};
-    \node [block, below of=identify] (evaluate) {Find neighbors};
-    \node [block, below of=evaluate] (transmit) {Evaluate neighbors, transmit};
-    \node [block, left of=evaluate, node distance=3cm] (update) {Update model};
-    \node [block, below of=transmit] (cure) {Evaluate sick, kill and cure};
-    \node [decision, left of=cure] (decide) {Break?};
+    \node [block, right= of init] (identify) {Set patient zero};
+    \node [block, below= of identify] (evaluate) {Find neighbors};
+    \node [block, left= of evaluate] (transmit) {Evaluate neighbors, transmit};
+    \node [block, left= of transmit] (cure) {Evaluate sick, kill and cure};
+    \node [decision, below of=cure] (decide) {Break?};
+    \node [block, right= of decide, node distance=3cm] (update) {Update model};
     \node [block, below of=decide, node distance=3cm] (stop) {Stop};
     % Draw edges
+    \path [line,dashed] (expert) -- (init);
     \path [line] (init) -- (identify);
     \path [line] (identify) -- (evaluate);
-    %\path [line] (evaluate) -- (decide);
     \path [line] (evaluate) -- (transmit);
     \path [line] (transmit) -- (cure);
-    \path [line] (decide) -- (update);
-    \path [line] (update) |- (evaluate);
-    \path [line] (decide) -- (stop);
-    \path [line,dashed] (expert) -- (init);
+    \path [line] (decide) -- node {No} (update);
+    \path [line] (update) -| (evaluate);
+    \path [line] (decide) -- node {Yes} (stop);
     \path [line] (cure) -- (decide);
-    % \path [line,dashed] (system) -- (init);
-    % \path [line,dashed] (system) |- (evaluate);
 \end{tikzpicture}
+\end{document}

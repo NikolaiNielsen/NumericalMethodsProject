@@ -1,32 +1,7 @@
-\documentclass{article}
+\documentclass{standalone}
 
-\usepackage[latin1]{inputenc}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
-
-%%%<
-\usepackage{verbatim}
-\usepackage[active,tightpage]{preview}
-\PreviewEnvironment{tikzpicture}
-\setlength\PreviewBorder{5pt}%
-%%%>
-
-\begin{comment}
-:Title: Simple flow chart
-:Tags: Diagrams
-
-With PGF/TikZ you can draw flow charts with relative ease. This flow chart from [1]_
-outlines an algorithm for identifying the parameters of an autonomous underwater vehicle model.
-
-Note that relative node
-placement has been used to avoid placing nodes explicitly. This feature was
-introduced in PGF/TikZ >= 1.09.
-
-.. [1] Bossley, K.; Brown, M. & Harris, C. Neurofuzzy identification of an autonomous underwater vehicle `International Journal of Systems Science`, 1999, 30, 901-913
-
-
-\end{comment}
-
+\usetikzlibrary{arrows,shapes.geometric,positioning}
 
 \begin{document}
 \pagestyle{empty}
@@ -41,31 +16,27 @@ introduced in PGF/TikZ >= 1.09.
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
     minimum height=2em]
 
-\begin{tikzpicture}[node distance = 2cm, auto]
+\begin{tikzpicture}[node distance = 1cm, auto]
     % Place nodes
     \node [block] (init) {Initialize model};
     \node [cloud, left of=init] (expert) {Input args};
-    % \node [cloud, right of=init] (system) {system};
-    \node [block, below of=init] (identify) {Set patient zero};
-    \node [block, below of=identify] (evaluate) {Find neighbors};
-    \node [block, below of=evaluate] (transmit) {Evaluate neighbors, transmit};
-    \node [block, left of=evaluate, node distance=3cm] (update) {Update model};
-    \node [block, below of=transmit] (cure) {Evaluate sick, kill and cure};
-    \node [decision, left of=cure] (decide) {Stop?};
-    \node [block, below of=decide, node distance=3cm] (stop) {stop};
+    \node [block, right= of init] (identify) {Set patient zero};
+    \node [block, below= of identify] (evaluate) {Find neighbors};
+    \node [block, left= of evaluate] (transmit) {Evaluate neighbors, transmit};
+    \node [block, left= of transmit] (cure) {Evaluate sick, kill and cure};
+    \node [decision, below of=cure] (decide) {Break?};
+    \node [block, right= of decide, node distance=3cm] (update) {Update model};
+    \node [block, below of=decide, node distance=3cm] (stop) {Stop};
     % Draw edges
+    \path [line,dashed] (expert) -- (init);
     \path [line] (init) -- (identify);
     \path [line] (identify) -- (evaluate);
-    %\path [line] (evaluate) -- (decide);
     \path [line] (evaluate) -- (transmit);
     \path [line] (transmit) -- (cure);
-    \path [line] (decide) -- (update);
-    \path [line] (update) |- (evaluate);
-    \path [line] (decide) -- (stop);
-    \path [line,dashed] (expert) -- (init);
+    \path [line] (decide) -- node {No} (update);
+    \path [line] (update) -| (evaluate);
+    \path [line] (decide) -- node {Yes} (stop);
     \path [line] (cure) -- (decide);
-    % \path [line,dashed] (system) -- (init);
-    % \path [line,dashed] (system) |- (evaluate);
 \end{tikzpicture}
 
 

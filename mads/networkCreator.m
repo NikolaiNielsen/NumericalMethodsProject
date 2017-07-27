@@ -29,6 +29,30 @@ A = adjacency(G);
 
 save('twoTowns.mat','A')
 
+figure()
+h = plot(G)
+h.NodeLabel = [];
+grid off
+set(gca,'XTickLabel','')
+set(gca,'YTickLabel','')
+% set(gca, 'xcolor', [0 0 0],...
+%          'ycolor', [0 0 0],...
+%          'color', 'none');
+set(gcf, 'color', 'none');
+title('');    % clear title
+
+% Clean plot of any labels/annotations/text
+colorbar off; % turn off colorbar (does nothing in this example)
+shading flat; % remove any grid (might not be needed)
+axis off;     % turn off axes
+
+% Output file
+fname = 'network_twotowns_map';  % base name; choose anything you like
+print('-depsc2',fname); % print to eps (can't go direct to pdf without trimming)
+%system(['convert ' fname '.eps ' fname '.pdf']);
+
+export_fig('test',-eps)
+
 %%
 
 x = random_modular_graph(100,3,0.4,1);
