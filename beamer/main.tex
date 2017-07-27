@@ -238,7 +238,7 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
         \begin{axis}[
             xlabel=Fraction immune,
             ylabel=Fraction of runs with no. of sick \( \leq 5 \),
-            title={Ebola, small world, \( N = 1000 \)},
+            title={Ebola, \( N = 1000, R_0=2 \)},
             mlineplot,
             cycle list=mlineplot cycle,
             xmin=0,
@@ -257,6 +257,75 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
         \end{axis}
     \end{tikzpicture}
 \end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=Fraction immune,
+            ylabel=Fraction of runs with no. of sick \( \leq 5 \),
+            title={Polio, \( N = 1000, R_0=6 \)},
+            mlineplot,
+            cycle list=mlineplot cycle,
+            xmin=0,
+            ymin=0.9,
+            y tick label style={
+                    /pgf/number format/.cd,
+                    fixed,
+                    fixed zerofill,
+                    precision=2,
+                    /tikz/.cd
+                }
+            ]
+            \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+            \draw [dashed,red] (0.8,0) -- (0.8,1.3);
+            \draw [dashed,red] (0.86,0) -- (0.86,1.3);
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=Fraction immune,
+            ylabel=Fraction of runs with no. of sick \( \leq 5 \),
+            title={Measles, \( N = 1000, R_0=15 \)},
+            mlineplot,
+            cycle list=mlineplot cycle,
+            xmin=0,
+            ymin=0.9,
+            y tick label style={
+                    /pgf/number format/.cd,
+                    fixed,
+                    fixed zerofill,
+                    precision=2,
+                    /tikz/.cd
+                }
+            ]
+            \addplot [only marks,error bars/.cd,y dir = both,y explicit] table [col sep=comma,x index = {0}, y index = {1}, y error index = {2}] {../nikolai/ebola_smallworld.csv};
+            \draw [dashed,red] (0.92,0) -- (0.92,1.3);
+            \draw [dashed,red] (0.94,0) -- (0.94,1.3);
+        \end{axis}
+    \end{tikzpicture}
+\end{figure}
+
+}
+
+\frame{
+\frametitle{Results}
+
+Video Galore
 
 }
 
