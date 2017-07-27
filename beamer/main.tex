@@ -13,6 +13,8 @@
 \usepackage{booktabs}
 \usepackage{bm}
 \usepackage{hyperref}
+\usepackage{multimedia}
+\usepackage{media9}
 \usepackage[font=scriptsize,labelfont=bf]{caption}
 \setbeamertemplate{itemize items}[default]
 \usepgfplotslibrary{units}
@@ -88,9 +90,6 @@
 \frame{
 \frametitle{Diseases}
 
-
-% Please add the following required packages to your document preamble:
-% \usepackage{booktabs}
 \begin{table}[]
 \centering
 \label{my-label}
@@ -98,14 +97,14 @@
 \toprule
 \textbf{}        & \( \bm{R_0} \) & \textbf{Mortality rate} & \textbf{HIT}       \\ \midrule
 Ebola            & 1.5-2.5       & 0.25-0.90               & 0.33-0.60 \\
-Bubonic plague   & 3             & 0.6                     & 0.67      \\
-Pneumonic plague & 2             & 0.90-0.95               & 0.50      \\ \midrule
+% Bubonic plague   & 3             & 0.6                     & 0.67      \\
+% Pneumonic plague & 2             & 0.90-0.95               & 0.50      \\ \midrule
 Measles          & 12-18         & 0.15                    & 0.92-0.94 \\
-Flu              & 1.5-1.8       & 0.001                   & 0.33-0.44 \\
-SARS             & 2-5           & 0.096                   & 0.50-0.80 \\
+% Flu              & 1.5-1.8       & 0.001                   & 0.33-0.44 \\
+% SARS             & 2-5           & 0.096                   & 0.50-0.80 \\
 Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \bottomrule
 \end{tabular}
-\caption{Data from \url{https://en.wikipedia.org/wiki/Herd_immunity} \& \url{https://www.duo.uio.no/bitstream/handle/10852/45490/KDPlagueThesis.pdf?sequence=9}}
+\caption{Data from \url{https://en.wikipedia.org/wiki/Herd_immunity}}
 \end{table}
 
 }
@@ -153,6 +152,24 @@ Polio            & 5-7           & 0.15-0.30               & 0.80-0.86 \\ \botto
 \end{itemize}
 
 }
+
+\section{Networks}
+\frame{
+\frametitle{Movie time: two cities, death}
+
+\centering
+\href{run:/Users/mads/NumericalMethodsProject/beamer/test.m4v}{\includegraphics[scale=0.2]{test.png}}
+
+}
+
+% \section{Networks}
+% \frame{
+% \frametitle{Movie time: two cities, immunity}
+%
+% \centering
+% \href{run:./immune1.m4v}{\includegraphics[scale=0.2]{immune1.png}}
+%
+% }
 
 \section{Custom network}
 \frame{

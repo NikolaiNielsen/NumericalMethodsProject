@@ -1,4 +1,4 @@
-x = random_modular_graph(50,2,0.4,1);
+x = random_modular_graph(30,2,0.4,1);
 
 G = graph(x);
 figure()
